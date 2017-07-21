@@ -6,8 +6,8 @@
   ],
   "description": "Web component based on Polymer 2, provide material design.",
   "main": [
-    "prism-data-table",
-    "prism-table-selector",
+    "prism-data-table.html",
+    "prism-table-selector.html",
     "prism-table.html",
     "prism-thead.html",
     "prism-tbody.html",
