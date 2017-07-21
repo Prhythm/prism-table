@@ -1,0 +1,232 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../polymer/lib/utils/debounce.html" />
+<link rel="import" href="prism-table-selector-behavior.html" />
+<link rel="import" href="prism-object-equals.html" />
+
+<dom-module id="prism-table-selector">
+    <template>
+        <style>
+             :host {
+                width: 100%;
+                max-width: 100%;
+                display: table;
+            }
+            /* Only display children of <prism-table> */
+
+             ::slotted(:not(prism-table)) {
+                display: none;
+            }
+        </style>
+        <slot></slot>
+    </template>
+    <script>
+        'use strict';
+
+        /**
+         * `<prism-table-selector>` is a row selector for `<prism-table>`.
+         *
+         * # Usage
+         *
+         * ```html
+         * <prism-table-selector selected="{{value}}" selected-items="{{values}}">
+         *     <prism-table responsive condensed>
+         *         <prism-thead>
+         *             <prism-tr>
+         *                 <prism-th>OrderDate</prism-th>
+         *                 <prism-th>Region</prism-th>
+         *                 <prism-th>Rep</prism-th>
+         *                 <prism-th>Item</prism-th>
+         *                 <prism-th>Units</prism-th>
+         *                 <prism-th>UnitCost</prism-th>
+         *                 <prism-th>Total</prism-th>
+         *             </prism-tr>
+         *         </prism-thead>
+         *         <prism-tbody>
+         *             <prism-tr key="1">
+         *                 <prism-td title="OrderDate">1/6/2016</prism-td>
+         *                 <prism-td title="Region">East</prism-td>
+         *                 <prism-td title="Rep">Jones</prism-td>
+         *                 <prism-td title="Item">Pencil</prism-td>
+         *                 <prism-td title="Units">95</prism-td>
+         *                 <prism-td title="UnitCost">1.99</prism-td>
+         *                 <prism-td title="Total">189.05</prism-td>
+         *             </prism-tr>
+         *             <prism-tr key="2">
+         *                 <prism-td title="OrderDate">1/23/2016</prism-td>
+         *                 <prism-td title="Region">Central</prism-td>
+         *                 <prism-td title="Rep">Kivell</prism-td>
+         *                 <prism-td title="Item">Binder</prism-td>
+         *                 <prism-td title="Units">50</prism-td>
+         *                 <prism-td title="UnitCost">19.99</prism-td>
+         *                 <prism-td title="Total">999.50</prism-td>
+         *             </prism-tr>
+         *         </prism-tbody>
+         *     </prism-table>
+         * </prism-table-selector>
+         * ```
+         *
+         * ## Styling
+         *
+         * `<prism-table-selector>` provides the following custom properties and mixins for styling:
+         * 
+         * Custom property | Description | Default
+         * ----------------|-------------|----------
+         * `--var-prism-table-selector-color` | Selected row background color | `rgba(0, 0, 0, 0.12)`
+         *
+         * @memberof Prhythm
+         * @element prism-table
+         * @customElement
+         * @polymer
+         * @demo demo/table-selector.html Basic prism-table-selector Demo
+         */
+        class PrismTableSelector extends PrismTableSelectorBehavior(Polymer.Element) {
+
+            static get is() {
+                return 'prism-table-selector'
+            }
+
+            static get properties() {
+                return {
+                    /**
+                     * Disable selection
+                     */
+                    disabled: {
+                        type: Boolean,
+                        value: false
+                    }
+                }
+            }
+
+            static get observers() {
+                return [
+                    '__multipleCheckboxChanged(multiple, allowCheckbox)'
+                ]
+            }
+
+            /**
+             * Rerender style when property changed
+             *
+             * @param {Boolean} multiple Multiple selection
+             * @param {Boolean} allowCheckbox Use checkbox
+             * @return {Void}
+             */
+            __multipleCheckboxChanged(multiple, allowCheckbox) {
+                Array.prototype.filter.call(this.children, (child) => {
+                    return child && child.tagName === 'PRISM-TABLE';
+                }).forEach((table) => {
+                    table.rows().forEach((row) => {
+                        row.updateCheckbox(this);
+                    });
+                });
+            }
+
+            /**
+             * Toggle selected value
+             *
+             * @param {Object} value Selected value
+             * @return {Void}
+             */
+            toggleSelected(value) {
+                if (this.isSelected(value)) {
+                    this.removeSelected(value);
+                } else {
+                    this.addSelected(value);
+                }
+            }
+
+            /**
+             * Check value exists in current selection
+             *
+             * @param {Object} value Selected value
+             * @return {Boolean}
+             */
+            isSelected(value) {
+                let selection = this.selectedItems || [];
+                for (let i = 0; i < selection.length; i++) {
+                    if (this.balanced(value, selection[i])) return true;
+                }
+                return false;
+            }
+
+            /**
+             * Append selected value into current selection
+             *
+             * @param {Object} value Selected value
+             * @return {Void}
+             */
+            addSelected(value) {
+                // To trigger binding, recreate a new array reference
+                let selection = Array.from(this.selectedItems || []);
+                selection.push(value);
+                this.changeSelected(selection);
+            }
+
+            /**
+             * Remove selected value from current selection
+             *
+             * @param {Object} value Selected value
+             * @return {Void}
+             */
+            removeSelected(value) {
+                let me = this;
+                let selection = me.selectedItems || [];
+                selection = selection.filter((item) => {
+                    return !me.balanced(value, item);
+                });
+                this.changeSelected(selection);
+            }
+
+            /**
+             * Clear selected values
+             *
+             * @return {Void}
+             */
+            clearSelected() {
+                this.changeSelected([]);
+            }
+
+            /**
+             * Change selected values
+             *
+             * @param {Array} selection Selected values
+             * @return {Void}
+             */
+            changeSelected(selection) {
+                if (!this.disabled) {
+                    this.set('selectedItems', selection);
+                    this.set('selected', selection && selection.length > 0 ? selection[0] : undefined);
+
+                    // Debounce event trigger to prevent multiple trigger
+                    this._debouncer = Polymer.Debouncer.debounce(this._debouncer,
+                        Polymer.Async.timeOut.after(150),
+                        () => {
+                            // Update styles of data row
+                            Array.prototype.filter.call(this.children, (child) => {
+                                return child && child.tagName === 'PRISM-TABLE';
+                            }).forEach((table) => {
+                                table.rows().forEach((row) => {
+                                    row.updateSelected(selection, this);
+                                });
+                            });
+                            // Trigger selection change event
+                            this.dispatchEvent(new CustomEvent('change', { detail: selection }));
+                        });
+                }
+            }
+
+            /**
+             * Compare equalitiy of two values
+             *
+             * @param {*} one Value for compare
+             * @param {*} another Value to be compare
+             * @returns {boolean} Result of arguments compare to
+             */
+            balanced(one, another) {
+                return Object.is(one, another) || Object.equals(one, another);
+            }
+
+        }
+
+        customElements.define(PrismTableSelector.is, PrismTableSelector);
+    </script>
+</dom-module>

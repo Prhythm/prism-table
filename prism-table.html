@@ -1,0 +1,226 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="prism-table-behavior.html" />
+
+<dom-module id="prism-table">
+    <template>
+        <style>
+             :host {
+                display: table;
+                width: 100%;
+                max-width: 100%;
+
+                font-size: var(--var-prism-table-font-size, inherit);
+                font-weight: var(--var-prism-table-font-weight, inherit);
+
+                --var-prism-table-cell-condense: 0.8em;
+
+                --prism-table-border-color: #e0e0e0;
+                --prism-table-cell-padding: 1.6em;
+                --prism-table-header-cell-border-bottom: 1px solid var(--prism-table-border-color);
+                --prism-table-cell-border-bottom: 0px;
+            }
+
+             ::slotted(:not(prism-thead):not(prism-tbody):not(prism-tfoot)) {
+                display: none;
+            }
+
+             :host([shadow]) {
+                --prism-table-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+            }
+
+             :host([bordered]) {
+                --prism-table-header-cell-border-bottom: 2px solid var(--prism-table-border-color);
+                --prism-table-cell-border-bottom: 1px solid var(--prism-table-border-color);
+            }
+
+             :host([condensed]) {
+                --prism-table-cell-padding: var(--var-prism-table-cell-condense, --prism-table-cell-padding);
+            }
+
+             :host([hover]) {
+                --prism-table-body-row-hover-color: var(--var-prism-table-row-hover-color, inherit);
+                --prism-table-body-row-hover-background-color: var(--var-prism-table-row-hover-background-color, #c5c5c5);
+            }
+
+             :host([striped]) {
+                --prism-table-body-row-stripe-color: var(--var-prism-table-row-stripe-color, inherit);
+                --prism-table-body-row-stripe-background-color: var(--var-prism-table-row-stripe-background-color, #f5f5f5);
+            }
+
+            .table {
+                display: table;
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 2rem;
+                background-color: var(--var-prism-table-backgrounc-color, transparent);
+
+                -webkit-box-shadow: var(--prism-table-shadow);
+                -moz-box-shadow: var(--prism-table-shadow);
+                box-shadow: var(--prism-table-shadow);
+            }
+
+            @media screen and (max-width: 768px) {
+
+                 :host([responsive]) {
+                    --prism-table-header-row-display: none;
+                    --prism-table-footer-row-display: none;
+
+                    --prism-table-body-row-display: block;
+
+                    --prism-table-row-display: block;
+                    --prism-table-row-border: 1px solid var(--prism-table-border-color);
+                    --prism-table-row-margin-bottom: 1em;
+
+                    --prism-table-cell-display: block;
+                    --prism-table-cell-vertical-align: middle;
+                    --prism-table-cell-text-align: right;
+
+                    --prism-table-cell-title-content: attr(title);
+                    --prism-table-cell-title-float: left;
+                    --prism-table-cell-title-color: #757575;
+                }
+
+                 :host([responsive][shadow]) {
+                    --prism-table-shadow: none;
+                    --prism-table-row-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+                }
+
+                 :host([responsive][bordered]) {
+                    --prism-table-cell-last-border-bottom: 0px;
+                }
+
+                 :host([responsive][hover]) {}
+
+                 :host([responsive][condensed]) {}
+
+                 :host([responsive][striped]) {
+                    --prism-table-body-row-stripe-color: inherit;
+                    --prism-table-body-row-stripe-background-color: transparent;
+
+                    --prism-table-body-cell-stripe-color: var(--var-prism-table-row-stripe-color, inherit);
+                    --prism-table-body-cell-stripe-background-color: var(--var-prism-table-row-stripe-background-color, #f5f5f5);
+                }
+                
+            }
+        </style>
+        <div class="table">
+            <slot></slot>
+        </div>
+    </template>
+    <script>
+        'use strict';
+
+        /**
+         * `<prism-table>` is a [Polymer 2](http://polymer-project.org/) element provides table structure in material design and responsive.
+         * 
+         * # Usage
+         * 
+         * ```html
+         * <prism-table>
+         *     <prism-thead>
+         *         <prism-tr>
+         *             <prism-th>OrderDate</prism-th>
+         *             <prism-th>Region</prism-th>
+         *             <prism-th>Rep</prism-th>
+         *             <prism-th>Item</prism-th>
+         *             <prism-th>Units</prism-th>
+         *             <prism-th>UnitCost</prism-th>
+         *             <prism-th>Total</prism-th>
+         *         </prism-tr>
+         *     </prism-thead>
+         *     <prism-tbody>
+         *         <prism-tr>
+         *             <prism-td title="OrderDate">1/6/2016</prism-td>
+         *             <prism-td title="Region">East</prism-td>
+         *             <prism-td title="Rep">Jones</prism-td>
+         *             <prism-td title="Item">Pencil</prism-td>
+         *             <prism-td title="Units">95</prism-td>
+         *             <prism-td title="UnitCost">1.99</prism-td>
+         *             <prism-td title="Total">189.05</prism-td>
+         *         </prism-tr>
+         *         <prism-tr>
+         *             <prism-td title="OrderDate">1/23/2016</prism-td>
+         *             <prism-td title="Region">Central</prism-td>
+         *             <prism-td title="Rep">Kivell</prism-td>
+         *             <prism-td title="Item">Binder</prism-td>
+         *             <prism-td title="Units">50</prism-td>
+         *             <prism-td title="UnitCost">19.99</prism-td>
+         *             <prism-td title="Total">999.50</prism-td>
+         *         </prism-tr>
+         *     </prism-tbody>
+         * </prism-table>
+         * ```
+         *
+         * ## Styling
+         * 
+         * `<prism-table>` provides the following custom properties and mixins for styling:
+         * 
+         * Custom property | Description | Default
+         * ----------------|-------------|----------
+         * `--var-prism-table-font-size` | Font size | `inherit`
+         * `--var-prism-table-font-weight` | Font weight | `inherit`
+         * `--var-prism-table-backgrounc-color` | Table background | `transparent`
+         * `--var-prism-table-cell-condense` | Cell padding | `0.8em`
+         * `--var-prism-table-row-hover-background-color` | Hovered row background color | `#c5c5c5`
+         * `--var-prism-table-row-hover-color` | Hovered row text color | `inherit`
+         * `--var-prism-table-row-stripe-background-color` | Striped row background color | `#f5f5f5`
+         * `--var-prism-table-row-stripe-color` | Striped row text color | `inherit`
+         * `--var-prism-table-row-selected-background-color` | Striped row background color | `#454545`
+         * `--var-prism-table-row-selected-color` | Striped row text color | `white`
+         *
+         * @memberof Prhythm
+         * @element prism-table
+         * @customElement
+         * @polymer
+         * @demo demo/index.html Basic prism-table Demo
+         */
+        class PrismTable extends PrismTableBehavior(Polymer.Element) {
+
+            static get is() {
+                return 'prism-table'
+            }
+
+            /**
+             * Get row elements of table
+             *
+             * @param {HtmlElement} element Parent element
+             * @param {Number} depth Depth of recursive
+             * @return {Array} Element array of `<prism-tr>`
+             */
+            rows(element, depth) {
+                element = element || this;
+                depth = depth || 2;
+                let rows = [];
+
+                // Stops while touch depth level
+                if (depth < 0) return rows;
+                for (let i = 0; i < element.children.length; i++) {
+                    let child = element.children[i];
+                    // Only <prism-tr> is need
+                    if (child.tagName === 'PRISM-TR') rows.push(child);
+                    // Recursively step into
+                    rows = rows.concat(this.rows(child, (depth || 0) - 1));
+                }
+
+                return rows;
+            }
+
+            /**
+             * Remove css class of row
+             *
+             * @param {String} className Name of style class
+             * @return {Void}
+             */
+            removeRowCss(className) {
+                let rows = this.rows();
+                for (let i = 0; i < rows.length; i++) {
+                    let row = rows[i];
+                    row.classList.remove(className);
+                }
+            }
+
+        }
+
+        customElements.define(PrismTable.is, PrismTable);
+    </script>
+</dom-module>

@@ -1,0 +1,117 @@
+<link rel="import" href="../polymer/polymer.html" />
+
+<dom-module id="prism-table-checkbox">
+    <template>
+        <style>
+             :host([checked]) .checkbox {
+                background-color: var(--var-prism-table-checkbox-background, #3f51b5);
+            }
+
+             :host([checked]) .checkmark {
+                display: block;
+            }
+
+            .checkboxContainer {
+                display: inline-block;
+                position: relative;
+                width: 18px;
+                height: 18px;
+                min-width: 18px;
+                margin: initial;
+                vertical-align: middle;
+                background-color: transparent;
+            }
+
+            .checkbox {
+                position: relative;
+                box-sizing: border-box;
+                height: 100%;
+                border: solid 2px;
+                border-color: black;
+                border-radius: 2px;
+                pointer-events: none;
+                -webkit-transition: background-color 140ms, border-color 140ms;
+                transition: background-color 140ms, border-color 140ms;
+                background-color: transparent;
+            }
+
+            .checkmark {
+                position: absolute;
+                width: 36%;
+                height: 70%;
+                border-style: solid;
+                border-top: none;
+                border-left: none;
+                border-right-width: calc(2 / 15 * 18px);
+                border-bottom-width: calc(2 / 15 * 18px);
+                border-color: white;
+                -webkit-transform-origin: 97% 86%;
+                transform-origin: 97% 86%;
+                box-sizing: content-box;
+
+                -webkit-transform: rotate(37deg);
+                transform: rotate(37deg);
+                display: none;
+            }
+        </style>
+        <div class="checkboxContainer">
+            <div class="checkbox">
+                <div class="checkmark"></div>
+            </div>
+        </div>
+    </template>
+    <script>
+        'use strict';
+
+        /**
+         * Checkbox element for `<prism-table>`
+         *
+         * @memberof Prhythm
+         * @element prism-table-checkbox
+         * @customElement
+         * @polymer
+         */
+        class PrismTableCheckbox extends Polymer.Element {
+
+            static get is() {
+                return 'prism-table-checkbox';
+            }
+
+            static get properties() {
+                return {
+                    /**
+                     * Checked status
+                     */
+                    selected: Boolean
+                }
+            }
+
+            /**
+             * Toggle checked
+             *
+             * @return {Void}
+             */
+            toggle() {
+                this.set('selected', !this.selected);
+                this.check(this.selected);
+            }
+
+            /**
+             * Set checked
+             *
+             * @param {Boolean} value Checked
+             * @return {Void}
+             */
+            check(value) {
+                let name = 'checked';
+                if (true === value) {
+                    this.setAttribute(name, '');
+                } else {
+                    this.removeAttribute(name);
+                }
+            }
+        }
+
+        customElements.define(PrismTableCheckbox.is, PrismTableCheckbox);
+    </script>
+</dom-module>

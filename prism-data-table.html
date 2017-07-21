@@ -1,0 +1,465 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html" />
+<link rel="import" href="../polymer/lib/elements/dom-if.html" />
+
+<link rel="import" href="prism-table-import.html" />
+<link rel="import" href="prism-table-selector.html" />
+
+<dom-module id="prism-data-table">
+    <template>
+        <style>
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+        <prism-table-selector id="selector" disabled$="[[disableSelector]]" multiple$="[[multiple]]" allow-checkbox$="[[allowCheckbox]]"
+            selected="{{selected}}" selected-items="{{selectedItems}}" on-change="_selectionChanged">
+            <prism-table responsive$="[[responsive]]" hover$="[[hover]]" shadow$="[[shadow]]" bordered$="[[bordered]]" striped$="[[striped]]"
+                condensed$="[[condensed]]">
+                <prism-thead>
+                    <prism-tr>
+                        <template is="dom-if" if="[[allowCheckbox]]">
+                            <prism-th>&nbsp;</prism-th>
+                        </template>
+                        <template is="dom-repeat" items="[[columns]]" as="column">
+                            <!-- 排序事件 -->
+                            <prism-th on-click="_onSort">[[column.label]]</prism-th>
+                        </template>
+                    </prism-tr>
+                </prism-thead>
+                <prism-tbody>
+                    <template is="dom-repeat" items="[[rows]]" as="row">
+                        <prism-tr key="[[_getKeyValue(row)]]">
+                            <template is="dom-if" if="[[allowCheckbox]]">
+                                <prism-td title="Selection">
+                                    <prism-table-checkbox></prism-table-checkbox>
+                                </prism-td>
+                            </template>
+                            <template is="dom-repeat" items="[[columns]]" as="column">
+                                <!-- FIXME firefox css 套用動態元件不正常 -->
+                                <prism-td title="[[column.label]]" content="[[_content(column, row)]]" allow-html="[[column.allowHtml]]" max-length="[[column.maxLength]]"></prism-td>
+                            </template>
+                        </prism-tr>
+                    </template>
+                </prism-tbody>
+            </prism-table>
+        </prism-table-selector>
+    </template>
+    <script>
+        'use strict';
+
+        /**
+         * `<prism-data-table>` is a data table component use `<prism-table>` and `<prism-table-selector>`
+         *
+         * # Usage
+         *
+         * Place `<prism-data-table>` in your application
+         *
+         * ```html
+         * <prism-data-table disable-selector
+         *                   hover
+         *                   shadow
+         *                   key-names="email"
+         *                   selected="{{value}}"
+         *                   selected-items="{{items}}"
+         *                   headers="[[header]]"
+         *                   rows="[[source]]"></prism-data-table>
+         * ```
+         *
+         * Config columns and how `<prism-data-table>` should render
+         *
+         * ```
+         * this.set('header', [
+         *     {name: 'id', label: 'ID'},
+         *     {name: 'name', label: 'Name'},
+         *     {
+         *         name: 'email', label: 'Email',
+         *         allowHtml: true,
+         *         render: 'template', template: `<a href="mailto:#{email}">#{email}</a>`
+         *     },
+         *     {
+         *         name: 'gender', label: 'Gender',
+         *         render: 'map', map: {M: 'Male', F: 'Female'}
+         *     },
+         *     {
+         *         name: 'disabled', label: 'Status',
+         *         render: 'state', trueText: 'Disabled', falseText: 'Enabled'
+         *     },
+         *     {
+         *         name: 'created', label: 'Created',
+         *         render: 'transform', transform: 'formatDate'
+         *     }
+         * ])
+         * ```
+         *
+         * @memberof Prhythm
+         * @element prism-data-table
+         * @customElement
+         * @polymer
+         * @demo demo/data-table.html Basic prism-data-table Demo
+         */
+        class PrismDataTable extends PrismTableSelectorBehavior(PrismTableBehavior(Polymer.Element)) {
+
+            static get is() {
+                return 'prism-data-table';
+            }
+
+            static get properties() {
+                return {
+                    /**
+                     * Disable selection
+                     */
+                    disableSelector: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Define the key names of identity object,
+                     * Key name could be seperated by `,` symbol, 
+                     * such as `category.id,product.area`
+                     */
+                    keyNames: String,
+
+                    /**
+                     * Column information and configuration
+                     *
+                     * ```javascript
+                     * {
+                     *    "name": "id",  // Column identity, works as variable name for template content
+                     *    "label": "代號", // Column header label, this value display on table header
+                     *    "allowHtml": true,  // Allow html content, optional
+                     *    "render": "template",  // Render type, optional, available values are: template/map/transform/state
+                     *    "maxLength": 100, // Max text length cell renders, optional
+                     *    "template": `<a href="/path/${param}">${text}</a>`,  // Works when `render` is set as `tempate`, optional
+                     *                                                         // tempate allow use variable inside
+                     *    "map": {}, // Works when `render` is set as `map`, optional
+                     *               // this will map value from row data or column inforamtion
+                     *    "trueText": "真", // Works when `render` is set as `state`, optional
+                     *    "falseText": "敆" // trueText map when value is true, otherwise falseText
+                     * }
+                     * ```
+                     */
+                    headers: {
+                        type: Array,
+                        value: []
+                    },
+
+                    /**
+                     * Table data
+                     */
+                    rows: {
+                        type: Array,
+                        value: []
+                    }
+                }
+            }
+
+            static get observers() {
+                return [
+                    '_columnsChanged(headers.*)'
+                ]
+            }
+
+            /**
+             * Render table rows when column configuration changes.
+             *
+             * @param {Object} headers Column information
+             * @return {Void}
+             */
+            _columnsChanged(headers) {
+                let columns = headers.value;
+                // Rebuild column key namd label
+                columns = columns.map((item) => {
+                    let out = {
+                        // Define key for data
+                        key: item.name || item.label || item,
+                        // Define text for column display
+                        label: item.label || item,
+                    };
+
+                    return Object.assign(out, item);
+                });
+                this.set('columns', Array.from(columns));
+            }
+
+            /**
+             * Dispatch change event from `<prism-table-selector>`
+             */
+            _selectionChanged(e) {
+                // Dispath event
+                this.dispatchEvent(new CustomEvent('change', { detail: e.detail }));
+            }
+
+            /**
+             * Toggle selected value, this is a wrapped method for `<prism-table-selector>`
+             *
+             * @param {Object} value Selected value
+             * @return {Void}
+             */
+            toggleSelected(value) {
+                this.$.selector.toggleSelected(value);
+            }
+
+            /**
+             * Check value exists in current selection, this is a wrapped method for `<prism-table-selector>`
+             *
+             * @param {Object} value Selected value
+             * @return {Void}
+             */
+            isSelected(value) {
+                this.$.selector.isSelected(value);
+            }
+
+            /**
+             * Append selected value into current selection, this is a wrapped method for `<prism-table-selector>`
+             *
+             * @param {Object} value Selected value
+             * @return {Void}
+             */
+            addSelected(value) {
+                this.$.selector.addSelected(value);
+            }
+
+            /**
+             * Remove selected value from current selection, this is a wrapped method for `<prism-table-selector>`
+             *
+             * @param {Objec} value Selected value
+             * @return {Void}
+             */
+            removeSelected(value) {
+                this.$.selector.removeSelected(value);
+            }
+
+            /**
+             * Clear selection, this is a wrapped method for `<prism-table-selector>`
+             *
+             * @return {Void}
+             */
+            clearSelected() {
+                this.$.selector.clearSelected();
+            }
+
+            /**
+             * Change selection for selector, this is a wrapped method for `<prism-table-selector>`
+             *
+             * @param {Array} selection Selected values
+             * @return {Void}
+             */
+            changeSelected(selection) {
+                this.$.selector.changeSelected(selection);
+            }
+
+            /**
+             * Generate identity object according keyNames property
+             *
+             * @param {Object} row Data row
+             * @return {Object} identity object
+             */
+            _getKeyValue(row) {
+                let name = this.keyNames;
+                if (name) {
+                    // Identities is seperated by ','
+                    let segment = name.split(',');
+
+                    if (segment.length === 1) {
+                        // Single identity
+                        return this._routeProperty(row, name);
+                    } else {
+                        // Multiple identities, compose as a single object
+                        let result = {};
+                        for (let i = 0; i < segment.length; i++) {
+                            // Create and merge indentity object
+                            result = Object.assign(
+                                result,
+                                this._createIdentity(segment[i], this._routeProperty(row, segment[i])));
+                        }
+                        return result;
+                    }
+                } else {
+                    // Return raw row if key-names attribute is undefined
+                    return row;
+                }
+            }
+
+            /**
+             * Create a object instance with path and value.
+             * This is used for data comparison for selected rows.
+             *
+             * ```
+             * // 'person.child.firstName' = 'Bruce'
+             * { 'persion': { 'child': { 'firstName': 'Bruce' } } }
+             * ```
+             *
+             * @param {String} path 路徑。
+             * @param {*} value 最後的屬性值。
+             * @return {Object}
+             */
+            _createIdentity(path, value) {
+                // Root instance that to be created
+                let obj = {};
+                // Instance for processing
+                let pro = obj;
+                path = path.split('.');
+
+                for (let i = 0; i < path.length; i++) {
+                    if (i === path.length - 1) {
+                        // Fill value if meet last node
+                        pro[path[i]] = value;
+                    } else {
+                        // Create sub property object
+                        pro[path[i]] = {};
+                        pro = pro[path[i]];
+                    }
+                }
+
+                return obj;
+            }
+
+            /**
+             * Get value from object instance via path
+             *
+             * @param {Object} obj Object value for search
+             * @param {String} path Object path
+             * @return {*}
+             */
+            _routeProperty(obj, path) {
+                path = path.split('.');
+                for (let i = 0; i < path.length; i++) {
+                    if (path[i] in obj) {
+                        // Drill down to sub property
+                        obj = obj[path[i]];
+                    } else {
+                        return undefined;
+                    }
+                }
+                return obj;
+            }
+
+            /**
+             * Get cell content via column configuration
+             *
+             * @param {Object} column Column information
+             * @param {Object} row Row data
+             * @return {*} Cell content
+             */
+            _content(column, row) {
+                switch (column.render || '') {
+                    case 'template':
+                        return this._render(column.template, row, column) || row[column.key] || '';
+                    case 'map':
+                        return (column.map || {})[row[column.key]] || row[column.key] || '';
+                    case 'state':
+                        return (row[column.key] ? column.trueText : column.falseText) || row[column.key] || '';
+                    case 'transform':
+                        return this._transform(row[column.key], row, column) || row[column.key] || '';
+                    default:
+                        // Output text
+                        return row[column.key] || '';
+                }
+            }
+
+            /**
+             * Render cell content via template.
+             * Vairable in template will be replaced from row data or column
+             * information sequencely, but white space if there is no matched variable name
+             *
+             * @param {String} template Text content or html fragment
+             * @param {Object} row Row data
+             * @param {Object} column Column information
+             * @returns {*}
+             */
+            _render(template, row, column) {
+                if (!template) return null;
+                let pattern = /#\{([^}]+?)}/;
+                row = row || {};
+                column = column || {};
+
+                let matcher;
+                while (matcher = pattern.exec(template)) {
+                    let holder = matcher[0];
+                    let name = matcher[1];
+                    if (name in row) {
+                        template = template.replace(holder, row[name]);
+                    } else {
+                        template = template.replace(holder, column[name] || '');
+                    }
+                }
+                return template;
+            }
+
+            /**
+             * Transform value via customized method
+             *
+             * @param {Object} value Source value
+             * @param {Object} row Row data
+             * @param {Object} column Column infomration
+             * @returns {*}
+             */
+            _transform(value, row, column) {
+                if (!column.transform) return value;
+                let host = this.__getMethodHost();
+                if (!host) return value;
+
+                // Get function instance from shadow host
+                let fn = host[column.transform];
+                if (!fn || typeof (fn) !== 'function') return value;
+
+                return fn.call({}, value, row, column);
+            }
+
+            __getMethodHost() {
+                // Technically this should be the owner of the outermost template.
+                // In shadow dom, this is always getRootNode().host, but we can
+                // approximate this via cooperation with our dataHost always setting
+                // `_methodHost` as long as there were bindings (or id's) on this
+                // instance causing it to get a dataHost.
+                return this.__dataHost._methodHost || this.__dataHost;
+            }
+
+            /**
+             * Sort event
+             *
+             * @param {Event} e Event object
+             * @return {Void}
+             */
+            _onSort(e) {
+                // Get column index
+                let cell = e.path[0];
+                let row = cell.parentElement;
+                let index = Array.prototype.findIndex.call(row.children, (item) => item === cell);
+                let column = this.columns[index - 1];
+
+                if (this.get('sortIndex') === index) {
+                    // Set direction
+                    switch (this.get('sortDirection')) {
+                        default:
+                        case 'desc':
+                            this.set('sortDirection', 'asc');
+                            break;
+                        case 'asc':
+                            this.set('sortDirection', 'desc');
+                            break;
+                    }
+                } else {
+                    this.set('sortDirection', 'asc');
+                }
+                this.set('sortIndex', index);
+
+                // Fire sort event
+                this.dispatchEvent(new CustomEvent('sort', {
+                    bubble: true,
+                    compose: true,
+                    detail: Object.assign({ direction: this.get('sortDirection') }, column)
+                }));
+            }
+        }
+
+        customElements.define(PrismDataTable.is, PrismDataTable);
+    </script>
+</dom-module>

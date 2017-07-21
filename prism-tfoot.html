@@ -1,0 +1,43 @@
+<link rel="import" href="../polymer/polymer.html" />
+
+<dom-module id="prism-tfoot">
+    <template>
+        <style>
+             :host {
+                display: table-footer-group;
+            }
+
+             ::slotted(:not(prism-tr)) {
+                display: none;
+            }
+
+            @media screen and (max-width: 768px) {
+                 :host {
+                    display: var(--prism-table-footer-row-display);
+                }
+            }
+        </style>
+        <slot></slot>
+    </template>
+    <script>
+        'use strict';
+
+        /**
+         * Footer of `<prism-table>`
+         *
+         * @memberof Prhythm
+         * @element prism-tfoot
+         * @customElement
+         * @polymer
+         */
+        class PrismTableFoot extends Polymer.Element {
+
+            static get is() {
+                return 'prism-tfoot'
+            }
+
+        }
+
+        customElements.define(PrismTableFoot.is, PrismTableFoot);
+    </script>
+</dom-module>

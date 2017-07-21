@@ -1,0 +1,67 @@
+<script>
+    'use strict';
+
+    /**
+     * Shared properties of `<table-prism>`
+     *
+     * @param superClass 要繼承的類別，通常為 Polymer.Element。
+     * @returns {{properties}}
+     * @constructor
+     */
+    function PrismTableBehavior(superClass) {
+        return class extends superClass {
+            static get properties() {
+                return {
+                    /**
+                     * Responsive
+                     */
+                    responsive: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Hover
+                     */
+                    hover: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Shadow
+                     */
+                    shadow: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Bordered
+                     */
+                    bordered: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Striped
+                     */
+                    striped: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Condense
+                     */
+                    condensed: {
+                        type: Boolean,
+                        value: false
+                    }
+                }
+            }
+        }
+    }
+
+</script>

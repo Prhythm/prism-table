@@ -1,0 +1,77 @@
+<link rel="import" href="../polymer/polymer.html" />
+
+<dom-module id="prism-tbody">
+    <template>
+        <style>
+             :host {
+                display: table-row-group;
+            }
+
+             :host-context([striped]) ::slotted(prism-tr:nth-child(odd):not(.selected):not(:hover)) {
+                /* [Chrome] */
+                color: var(--prism-table-body-row-stripe-color);
+                background-color: var(--prism-table-body-row-stripe-background-color);
+            }
+
+             ::slotted(prism-tr):nth-child(odd):not(.selected):not(:hover) {
+                /* :host-context([striped]) ::slotted(prism-tr):nth-child(odd):not(.selected):not(:hover) { */
+                /* [Firefox] */
+                color: var(--prism-table-body-row-stripe-color);
+                background-color: var(--prism-table-body-row-stripe-background-color);
+            }
+
+             :host-context([hover]) ::slotted(prism-tr:hover) {
+                /* [Chrome] */
+                color: var(--prism-table-body-row-hover-color);
+                background-color: var(--prism-table-body-row-hover-background-color);
+            }
+
+             ::slotted(prism-tr):hover {
+                /* :host-context([hover]) ::slotted(prism-tr):hover { */
+                /* [Firefox] not work */
+                color: var(--prism-table-body-row-hover-color);
+                background-color: var(--prism-table-body-row-hover-background-color);
+            }
+
+             ::slotted(prism-tr.selected) {
+                /* [Chrome] */
+                color: var(--var-prism-table-row-selected-color, white);
+                background-color: var(--var-prism-table-row-selected-background-color, #454545);
+            }
+
+             ::slotted(prism-tr).selected {
+                /* [Firefox] not work */
+                color: var(--var-prism-table-row-selected-color, white);
+                background-color: var(--var-prism-table-row-selected-background-color, #454545);
+            }
+
+            @media screen and (max-width: 768px) {
+                 :host {
+                    display: var(--prism-table-body-row-display);
+                }
+            }
+        </style>
+        <slot></slot>
+    </template>
+    <script>
+        'use strict';
+
+        /**
+         * Row group of `<prism-table>`
+         *
+         * @memberof Prhythm
+         * @element prism-tbody
+         * @customElement
+         * @polymer
+         */
+        class PrismTableBody extends Polymer.Element {
+
+            static get is() {
+                return 'prism-tbody'
+            }
+
+        }
+
+        customElements.define(PrismTableBody.is, PrismTableBody);
+    </script>
+</dom-module>

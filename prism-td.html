@@ -1,0 +1,117 @@
+<link rel="import" href="../polymer/polymer.html" />
+
+<dom-module id="prism-td">
+    <template>
+        <style>
+             :host {
+                display: var(--prism-table-cell-display, table-cell);
+                -webkit-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+
+                text-align: var(--prism-table-cell-text-align, left);
+                vertical-align: var(--prism-table-cell-vertical-align, top);
+                border-top: 0;
+
+                padding: var(--prism-table-cell-padding);
+                border-bottom: var(--prism-table-cell-border-bottom);
+            }
+
+             :host([title]):before {
+                content: var( --prism-table-cell-title-content);
+                float: var( --prism-table-cell-title-float);
+                color: var( --prism-table-cell-title-color);
+            }
+
+
+            @media screen and (max-width: 768px) {}
+        </style>
+        <slot></slot>
+    </template>
+    <script>
+        'use strict';
+
+        /**
+         * Cell of `<prism-table>`
+         *
+         * @memberof Prhythm
+         * @element prism-td
+         * @customElement
+         * @polymer
+         */
+        class PrismTableCell extends Polymer.Element {
+
+            static get is() {
+                return 'prism-td'
+            }
+
+            static get properties() {
+                return {
+                    /**
+                     * Cell text content, replace slot content when value assigned.
+                     */
+                    content: {
+                        type: String
+                    },
+
+                    /**
+                     * Allow render html content
+                     */
+                    allowHtml: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Max text length for display
+                     */
+                    maxLength: {
+                        type: Number
+                    }
+                }
+            }
+
+            static get observers() {
+                return [
+                    '_renderCellContent(content, allowHtml)'
+                ]
+            }
+
+            /**
+             * Render cell content
+             *
+             * @param {String} content Text content
+             * @param {Boolean} allowHtml Html escape
+             * @return {Void}
+             */
+            _renderCellContent(content, allowHtml) {
+                // content 不為未定義(undefined)時才處理
+                // 避免顯示皆為空白
+                if (this.content === undefined) return;
+
+                // Remove existing content
+                while (this.firstChild) {
+                    this.removeChild(this.firstChild);
+                }
+
+                if (allowHtml) {
+                    let div = document.createElement('div');
+                    div.innerHTML = content;
+                    while (div.firstChild) {
+                        this.appendChild(div.removeChild(div.firstChild));
+                    }
+                } else {
+                    if (this.maxLength && this.maxLength > 0 && content.length > this.maxLength) {
+                        content = content.substr(0, this.maxLength) + '...';
+                    }
+                    // To prevent layout error,
+                    // fills blank char when content is empty or undefined
+                    let text = document.createTextNode(content || '\u00A0');
+                    this.appendChild(text);
+                }
+            }
+        }
+
+        customElements.define(PrismTableCell.is, PrismTableCell);
+    </script>
+</dom-module>

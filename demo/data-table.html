@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>prism-data-table demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../iron-ajax/iron-ajax.html" />
+    <link rel="import" href="../prism-data-table.html" />
+
+    <custom-style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+            demo-snippet {
+                width: 900px;
+                margin-left: -150px;
+            }
+
+            @media screen and (max-width: 768px) {
+                demo-snippet {
+                    width: 600px;
+                    margin-left: 0px;
+                }
+            }
+        </style>
+    </custom-style>
+</head>
+
+<body>
+    <div class="vertical-section-container centered">
+
+        <h3>Data Table with no selector</h3>
+        <demo-snippet>
+            <template>
+                <dom-bind id="no-selector">
+                    <template>
+                        <style>
+                            .selection {
+                                padding: 8px;
+                            }
+                        </style>
+                        <div class="selection">
+                            <div>selected: [[value]]</div>
+                            <div>selected-items: [[items]]</div>
+                        </div>
+                        <prism-data-table disable-selector responsive hover shadow key-names="email" selected="{{value}}" selected-items="{{items}}"
+                            headers="[[header]]" rows="[[source]]"></prism-data-table>
+                        <iron-ajax auto url="data-table-source.json" last-response="{{source}}"></iron-ajax>
+                    </template>
+                </dom-bind>
+                <script>
+                    binder = document.querySelector('dom-bind#no-selector');
+
+                    binder.formatDate = function (value, row, column) {
+                        let date = new Date(value),
+                            year = date.getFullYear(),
+                            month = date.getMonth() + 1,
+                            day = date.getDate();
+
+                        if (month < 10) month = `0${month}`;
+                        if (day < 10) day = `0${day}`;
+
+                        return `${month}-${day}-${year}`;
+                    };
+
+                    binder.header = [
+                        { name: 'id', label: 'ID' },
+                        { name: 'name', label: 'Name' },
+                        {
+                            name: 'email', label: 'Email',
+                            allowHtml: true,
+                            render: 'template', template: `<a href="mailto:#{email}">#{email}</a>`
+                        },
+                        {
+                            name: 'gender', label: 'Gender',
+                            render: 'map', map: { M: 'Male', F: 'Female' }
+                        },
+                        {
+                            name: 'disabled', label: 'Status',
+                            render: 'state', trueText: 'Disabled', falseText: 'Enabled'
+                        },
+                        {
+                            name: 'created', label: 'Created',
+                            render: 'transform', transform: 'formatDate'
+                        }
+                    ];
+                </script>
+            </template>
+        </demo-snippet>
+
+        <h3>Data Table with single selector</h3>
+        <demo-snippet>
+            <template>
+                <dom-bind id="single-selector">
+                    <template>
+                        <style>
+                            .selection {
+                                padding: 8px;
+                            }
+                        </style>
+                        <div class="selection">
+                            <div>selected: [[value]]</div>
+                            <div>selected-items: [[items]]</div>
+                        </div>
+                        <prism-data-table striped responsive key-names="email" selected="{{value}}" selected-items="{{items}}" headers="[[header]]"
+                            rows="[[source]]"></prism-data-table>
+
+                        <iron-ajax auto url="data-table-source.json" last-response="{{source}}"></iron-ajax>
+                    </template>
+                </dom-bind>
+                <script>
+                    binder = document.querySelector('dom-bind#single-selector');
+
+                    binder.formatDate = function (value, row, column) {
+                        let date = new Date(value),
+                            year = date.getFullYear(),
+                            month = date.getMonth() + 1,
+                            day = date.getDate();
+
+                        if (month < 10) month = `0${month}`;
+                        if (day < 10) day = `0${day}`;
+
+                        return `${month}-${day}-${year}`;
+                    };
+
+                    binder.header = [
+                        { name: 'id', label: 'ID' },
+                        { name: 'name', label: 'Name' },
+                        {
+                            name: 'email', label: 'Email',
+                            allowHtml: true,
+                            render: 'template', template: `<a href="mailto:#{email}">#{email}</a>`
+                        },
+                        {
+                            name: 'gender', label: 'Gender',
+                            render: 'map', map: { M: 'Male', F: 'Female' }
+                        },
+                        {
+                            name: 'disabled', label: 'Status',
+                            render: 'state', trueText: 'Disabled', falseText: 'Enabled'
+                        },
+                        {
+                            name: 'created', label: 'Created',
+                            render: 'transform', transform: 'formatDate'
+                        }
+                    ];
+                </script>
+            </template>
+        </demo-snippet>
+
+        <h3>Data Table with multiple selector</h3>
+        <demo-snippet>
+            <template>
+                <dom-bind id="multi-selector">
+                    <template>
+                        <style>
+                            .selection {
+                                padding: 8px;
+                            }
+                        </style>
+                        <div class="selection">
+                            <div>selected: [[value]]</div>
+                            <div>selected-items: [[items]]</div>
+                        </div>
+                        <prism-data-table multiple responsive bordered key-names="email" selected="{{value}}" selected-items="{{items}}" headers="[[header]]"
+                            rows="[[source]]"></prism-data-table>
+                        <iron-ajax auto url="data-table-source.json" last-response="{{source}}"></iron-ajax>
+                    </template>
+                </dom-bind>
+                <script>
+                    binder = document.querySelector('dom-bind#multi-selector');
+
+                    binder.formatDate = function (value, row, column) {
+                        let date = new Date(value),
+                            year = date.getFullYear(),
+                            month = date.getMonth() + 1,
+                            day = date.getDate();
+
+                        if (month < 10) month = `0${month}`;
+                        if (day < 10) day = `0${day}`;
+
+                        return `${month}-${day}-${year}`;
+                    };
+
+                    binder.header = [
+                        { name: 'id', label: 'ID' },
+                        { name: 'name', label: 'Name' },
+                        {
+                            name: 'email', label: 'Email',
+                            allowHtml: true,
+                            render: 'template', template: `<a href="mailto:#{email}">#{email}</a>`
+                        },
+                        {
+                            name: 'gender', label: 'Gender',
+                            render: 'map', map: { M: 'Male', F: 'Female' }
+                        },
+                        {
+                            name: 'disabled', label: 'Status',
+                            render: 'state', trueText: 'Disabled', falseText: 'Enabled'
+                        },
+                        {
+                            name: 'created', label: 'Created',
+                            render: 'transform', transform: 'formatDate'
+                        }
+                    ];
+                </script>
+            </template>
+        </demo-snippet>
+
+        <h3>Data Table with multiple checkbox</h3>
+        <demo-snippet>
+            <template>
+                <dom-bind id="multi-checkbox">
+                    <template>
+                        <style>
+                            .selection {
+                                padding: 8px;
+                            }
+                        </style>
+                        <div class="selection">
+                            <div>selected: [[value]]</div>
+                            <div>selected-items: [[items]]</div>
+                        </div>
+                        <prism-data-table multiple responsive allow-checkbox condensed key-names="email" selected="{{value}}" selected-items="{{items}}"
+                            headers="[[header]]" rows="[[source]]"></prism-data-table>
+                        <iron-ajax auto url="data-table-source.json" last-response="{{source}}"></iron-ajax>
+                    </template>
+                </dom-bind>
+                <script>
+                    binder = document.querySelector('dom-bind#multi-checkbox');
+
+                    binder.formatDate = function (value, row, column) {
+                        let date = new Date(value),
+                            year = date.getFullYear(),
+                            month = date.getMonth() + 1,
+                            day = date.getDate();
+
+                        if (month < 10) month = `0${month}`;
+                        if (day < 10) day = `0${day}`;
+
+                        return `${month}-${day}-${year}`;
+                    };
+
+                    binder.header = [
+                        { name: 'id', label: 'ID' },
+                        { name: 'name', label: 'Name' },
+                        {
+                            name: 'email', label: 'Email',
+                            allowHtml: true,
+                            render: 'template', template: `<a href="mailto:#{email}">#{email}</a>`
+                        },
+                        {
+                            name: 'gender', label: 'Gender',
+                            render: 'map', map: { M: 'Male', F: 'Female' }
+                        },
+                        {
+                            name: 'disabled', label: 'Status',
+                            render: 'state', trueText: 'Disabled', falseText: 'Enabled'
+                        },
+                        {
+                            name: 'created', label: 'Created',
+                            render: 'transform', transform: 'formatDate'
+                        }
+                    ];
+                </script>
+            </template>
+        </demo-snippet>
+    </div>
+</body>
+
+</html>

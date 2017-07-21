@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>prism-table demo</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../prism-table-import.html" />
+
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+
+    </style>
+  </custom-style>
+</head>
+
+<body>
+  <div class="vertical-section-container centered">
+    
+    <h3>Default table with responsive</h3>
+    <demo-snippet>
+      <template>
+        <prism-table responsive>
+          <prism-thead>
+            <prism-tr>
+              <prism-th>OrderDate</prism-th>
+              <prism-th>Item</prism-th>
+              <prism-th>Units</prism-th>
+              <prism-th>UnitCost</prism-th>
+              <prism-th>Total</prism-th>
+            </prism-tr>
+          </prism-thead>
+          <prism-tbody>
+            <prism-tr>
+              <prism-td title="OrderDate">1/6/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">95</prism-td>
+              <prism-td title="UnitCost">1.99</prism-td>
+              <prism-td title="Total">189.05</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">1/23/2016</prism-td>
+              <prism-td title="Item">Binder</prism-td>
+              <prism-td title="Units">50</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">999.50</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/9/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">36</prism-td>
+              <prism-td title="UnitCost">4.99</prism-td>
+              <prism-td title="Total">179.64</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/26/2016</prism-td>
+              <prism-td title="Item">Pen</prism-td>
+              <prism-td title="Units">27</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">539.73</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">3/15/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">56</prism-td>
+              <prism-td title="UnitCost">2.99</prism-td>
+              <prism-td title="Total">167.44</prism-td>
+            </prism-tr>
+          </prism-tbody>
+        </prism-table>
+      </template>
+    </demo-snippet>
+
+    <h3>Table with responsive & bordered</h3>
+    <demo-snippet>
+      <template>
+        <prism-table bordered responsive>
+          <prism-thead>
+            <prism-tr>
+              <prism-th>OrderDate</prism-th>
+              <prism-th>Item</prism-th>
+              <prism-th>Units</prism-th>
+              <prism-th>UnitCost</prism-th>
+              <prism-th>Total</prism-th>
+            </prism-tr>
+          </prism-thead>
+          <prism-tbody>
+            <prism-tr>
+              <prism-td title="OrderDate">1/6/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">95</prism-td>
+              <prism-td title="UnitCost">1.99</prism-td>
+              <prism-td title="Total">189.05</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">1/23/2016</prism-td>
+              <prism-td title="Item">Binder</prism-td>
+              <prism-td title="Units">50</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">999.50</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/9/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">36</prism-td>
+              <prism-td title="UnitCost">4.99</prism-td>
+              <prism-td title="Total">179.64</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/26/2016</prism-td>
+              <prism-td title="Item">Pen</prism-td>
+              <prism-td title="Units">27</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">539.73</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">3/15/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">56</prism-td>
+              <prism-td title="UnitCost">2.99</prism-td>
+              <prism-td title="Total">167.44</prism-td>
+            </prism-tr>
+          </prism-tbody>
+        </prism-table>
+      </template>
+    </demo-snippet>
+
+    <h3>Table with responsive & hover</h3>
+    <demo-snippet>
+      <template>
+        <prism-table hover responsive>
+          <prism-thead>
+            <prism-tr>
+              <prism-th>OrderDate</prism-th>
+              <prism-th>Item</prism-th>
+              <prism-th>Units</prism-th>
+              <prism-th>UnitCost</prism-th>
+              <prism-th>Total</prism-th>
+            </prism-tr>
+          </prism-thead>
+          <prism-tbody>
+            <prism-tr>
+              <prism-td title="OrderDate">1/6/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">95</prism-td>
+              <prism-td title="UnitCost">1.99</prism-td>
+              <prism-td title="Total">189.05</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">1/23/2016</prism-td>
+              <prism-td title="Item">Binder</prism-td>
+              <prism-td title="Units">50</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">999.50</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/9/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">36</prism-td>
+              <prism-td title="UnitCost">4.99</prism-td>
+              <prism-td title="Total">179.64</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/26/2016</prism-td>
+              <prism-td title="Item">Pen</prism-td>
+              <prism-td title="Units">27</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">539.73</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">3/15/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">56</prism-td>
+              <prism-td title="UnitCost">2.99</prism-td>
+              <prism-td title="Total">167.44</prism-td>
+            </prism-tr>
+          </prism-tbody>
+        </prism-table>
+      </template>
+    </demo-snippet>
+
+    <h3>Table with responsive & shadow</h3>
+    <demo-snippet>
+      <template>
+        <prism-table responsive shadow>
+          <prism-thead>
+            <prism-tr>
+              <prism-th>OrderDate</prism-th>
+              <prism-th>Item</prism-th>
+              <prism-th>Units</prism-th>
+              <prism-th>UnitCost</prism-th>
+              <prism-th>Total</prism-th>
+            </prism-tr>
+          </prism-thead>
+          <prism-tbody>
+            <prism-tr>
+              <prism-td title="OrderDate">1/6/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">95</prism-td>
+              <prism-td title="UnitCost">1.99</prism-td>
+              <prism-td title="Total">189.05</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">1/23/2016</prism-td>
+              <prism-td title="Item">Binder</prism-td>
+              <prism-td title="Units">50</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">999.50</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/9/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">36</prism-td>
+              <prism-td title="UnitCost">4.99</prism-td>
+              <prism-td title="Total">179.64</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/26/2016</prism-td>
+              <prism-td title="Item">Pen</prism-td>
+              <prism-td title="Units">27</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">539.73</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">3/15/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">56</prism-td>
+              <prism-td title="UnitCost">2.99</prism-td>
+              <prism-td title="Total">167.44</prism-td>
+            </prism-tr>
+          </prism-tbody>
+        </prism-table>
+      </template>
+    </demo-snippet>
+
+    <h3>Table with responsive & striped</h3>
+    <demo-snippet>
+      <template>
+        <prism-table responsive striped>
+          <prism-thead>
+            <prism-tr>
+              <prism-th>OrderDate</prism-th>
+              <prism-th>Item</prism-th>
+              <prism-th>Units</prism-th>
+              <prism-th>UnitCost</prism-th>
+              <prism-th>Total</prism-th>
+            </prism-tr>
+          </prism-thead>
+          <prism-tbody>
+            <prism-tr>
+              <prism-td title="OrderDate">1/6/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">95</prism-td>
+              <prism-td title="UnitCost">1.99</prism-td>
+              <prism-td title="Total">189.05</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">1/23/2016</prism-td>
+              <prism-td title="Item">Binder</prism-td>
+              <prism-td title="Units">50</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">999.50</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/9/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">36</prism-td>
+              <prism-td title="UnitCost">4.99</prism-td>
+              <prism-td title="Total">179.64</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/26/2016</prism-td>
+              <prism-td title="Item">Pen</prism-td>
+              <prism-td title="Units">27</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">539.73</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">3/15/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">56</prism-td>
+              <prism-td title="UnitCost">2.99</prism-td>
+              <prism-td title="Total">167.44</prism-td>
+            </prism-tr>
+          </prism-tbody>
+        </prism-table>
+      </template>
+    </demo-snippet>
+
+    <h3>Table with responsive & condensed</h3>
+    <demo-snippet>
+      <template>
+        <prism-table responsive condensed>
+          <prism-thead>
+            <prism-tr>
+              <prism-th>OrderDate</prism-th>
+              <prism-th>Item</prism-th>
+              <prism-th>Units</prism-th>
+              <prism-th>UnitCost</prism-th>
+              <prism-th>Total</prism-th>
+            </prism-tr>
+          </prism-thead>
+          <prism-tbody>
+            <prism-tr>
+              <prism-td title="OrderDate">1/6/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">95</prism-td>
+              <prism-td title="UnitCost">1.99</prism-td>
+              <prism-td title="Total">189.05</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">1/23/2016</prism-td>
+              <prism-td title="Item">Binder</prism-td>
+              <prism-td title="Units">50</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">999.50</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/9/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">36</prism-td>
+              <prism-td title="UnitCost">4.99</prism-td>
+              <prism-td title="Total">179.64</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">2/26/2016</prism-td>
+              <prism-td title="Item">Pen</prism-td>
+              <prism-td title="Units">27</prism-td>
+              <prism-td title="UnitCost">19.99</prism-td>
+              <prism-td title="Total">539.73</prism-td>
+            </prism-tr>
+            <prism-tr>
+              <prism-td title="OrderDate">3/15/2016</prism-td>
+              <prism-td title="Item">Pencil</prism-td>
+              <prism-td title="Units">56</prism-td>
+              <prism-td title="UnitCost">2.99</prism-td>
+              <prism-td title="Total">167.44</prism-td>
+            </prism-tr>
+          </prism-tbody>
+        </prism-table>
+      </template>
+    </demo-snippet>
+
+  </div>
+</body>
+
+</html>

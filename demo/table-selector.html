@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>prism-table-selector demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../prism-table-import.html" />
+    <link rel="import" href="../prism-table-selector.html" />
+
+    <custom-style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+
+        </style>
+    </custom-style>
+</head>
+
+<body>
+    <div class="vertical-section-container centered">
+
+        <h3>Single selection</h3>
+        <demo-snippet>
+            <template>
+                <dom-bind id="single-select">
+                    <template>
+                        <style>
+                            .selection {
+                                padding: 8px;
+                            }
+                        </style>
+                        <div class="selection">
+                            <div>selected: [[value]]</div>
+                            <div>selected-items: [[values]]</div>
+                        </div>
+                        <p>
+                            <input type="text" value="{{selection::input}}" />
+                            <button on-click="changeSelection">Change selection</button>
+                        </p>
+                        <prism-table-selector id="selector" selected="{{value}}" selected-items="{{values}}">
+                            <prism-table responsive condensed>
+                                <prism-thead>
+                                    <prism-tr>
+                                        <prism-th>OrderDate</prism-th>
+                                        <prism-th>Item</prism-th>
+                                        <prism-th>Units</prism-th>
+                                        <prism-th>UnitCost</prism-th>
+                                        <prism-th>Total</prism-th>
+                                    </prism-tr>
+                                </prism-thead>
+                                <prism-tbody>
+                                    <prism-tr key="1">
+                                        <prism-td title="OrderDate">1/6/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">95</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">189.05</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="2">
+                                        <prism-td title="OrderDate">1/23/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">50</prism-td>
+                                        <prism-td title="UnitCost">19.99</prism-td>
+                                        <prism-td title="Total">999.50</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="3">
+                                        <prism-td title="OrderDate">2/9/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">36</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">179.64</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="4">
+                                        <prism-td title="OrderDate">2/26/2016</prism-td>
+                                        <prism-td title="Item">Pen</prism-td>
+                                        <prism-td title="Units">27</prism-td>
+                                        <prism-td title="UnitCost">19.99</prism-td>
+                                        <prism-td title="Total">539.73</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="5">
+                                        <prism-td title="OrderDate">3/15/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">56</prism-td>
+                                        <prism-td title="UnitCost">2.99</prism-td>
+                                        <prism-td title="Total">167.44</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="6">
+                                        <prism-td title="OrderDate">4/1/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">60</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">299.40</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="7">
+                                        <prism-td title="OrderDate">4/18/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">75</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">149.25</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="8">
+                                        <prism-td title="OrderDate">5/5/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">90</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">449.10</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="9">
+                                        <prism-td title="OrderDate">5/22/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">32</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">63.68</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="10">
+                                        <prism-td title="OrderDate">6/8/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">60</prism-td>
+                                        <prism-td title="UnitCost">8.99</prism-td>
+                                        <prism-td title="Total">539.40</prism-td>
+                                    </prism-tr>
+                                </prism-tbody>
+                            </prism-table>
+                        </prism-table-selector>
+                    </template>
+                </dom-bind>
+                <script>
+                    binder = document.querySelector('dom-bind#single-select');
+                    binder.changeSelection = function () {
+                        let values = (this.selection || '').split(',')
+                            .map((item) => item.trim())
+                            .filter((item) => item !== '');
+
+                        this.$.selector.changeSelected(values, true);
+                    };
+                </script>
+            </template>
+        </demo-snippet>
+
+        <h3>Multi selection</h3>
+        <demo-snippet>
+            <template>
+                <dom-bind id="multi-select">
+                    <template>
+                        <style>
+                            .selection {
+                                padding: 8px;
+                            }
+                        </style>
+                        <div class="selection">
+                            <div>selected: [[value]]</div>
+                            <div>selected-items: [[values]]</div>
+                        </div>
+                        <p>
+                            <input type="text" value="{{selection::input}}" />
+                            <button on-click="changeSelection">Change selection</button>
+                        </p>
+                        <prism-table-selector id="selector" selected="{{value}}" selected-items="{{values}}" multiple>
+                            <prism-table responsive condensed>
+                                <prism-thead>
+                                    <prism-tr>
+                                        <prism-th>OrderDate</prism-th>
+                                        <prism-th>Item</prism-th>
+                                        <prism-th>Units</prism-th>
+                                        <prism-th>UnitCost</prism-th>
+                                        <prism-th>Total</prism-th>
+                                    </prism-tr>
+                                </prism-thead>
+                                <prism-tbody>
+                                    <prism-tr key="1">
+                                        <prism-td title="OrderDate">1/6/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">95</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">189.05</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="2">
+                                        <prism-td title="OrderDate">1/23/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">50</prism-td>
+                                        <prism-td title="UnitCost">19.99</prism-td>
+                                        <prism-td title="Total">999.50</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="3">
+                                        <prism-td title="OrderDate">2/9/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">36</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">179.64</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="4">
+                                        <prism-td title="OrderDate">2/26/2016</prism-td>
+                                        <prism-td title="Item">Pen</prism-td>
+                                        <prism-td title="Units">27</prism-td>
+                                        <prism-td title="UnitCost">19.99</prism-td>
+                                        <prism-td title="Total">539.73</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="5">
+                                        <prism-td title="OrderDate">3/15/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">56</prism-td>
+                                        <prism-td title="UnitCost">2.99</prism-td>
+                                        <prism-td title="Total">167.44</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="6">
+                                        <prism-td title="OrderDate">4/1/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">60</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">299.40</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="7">
+                                        <prism-td title="OrderDate">4/18/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">75</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">149.25</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="8">
+                                        <prism-td title="OrderDate">5/5/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">90</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">449.10</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="9">
+                                        <prism-td title="OrderDate">5/22/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">32</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">63.68</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="10">
+                                        <prism-td title="OrderDate">6/8/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">60</prism-td>
+                                        <prism-td title="UnitCost">8.99</prism-td>
+                                        <prism-td title="Total">539.40</prism-td>
+                                    </prism-tr>
+                                </prism-tbody>
+                            </prism-table>
+                        </prism-table-selector>
+                    </template>
+                </dom-bind>
+                <script>
+                    binder = document.querySelector('dom-bind#multi-select');
+                    binder.changeSelection = function () {
+                        let values = (this.selection || '').split(',')
+                            .map((item) => item.trim())
+                            .filter((item) => item !== '');
+
+                        this.$.selector.changeSelected(values, true);
+                    };
+                </script>
+            </template>
+        </demo-snippet>
+
+        <h3>Multi selection with checkbox</h3>
+        <demo-snippet>
+            <template>
+                <dom-bind id="multi-checkbox">
+                    <template>
+                        <style>
+                            .selection {
+                                padding: 8px;
+                            }
+                        </style>
+                        <div class="selection">
+                            <div>selected: [[value]]</div>
+                            <div>selected-items: [[values]]</div>
+                        </div>
+                        <p>
+                            <input type="text" value="{{selection::input}}" />
+                            <button on-click="changeSelection">Change selection</button>
+                        </p>
+                        <prism-table-selector id="selector" selected="{{value}}" selected-items="{{values}}" multiple allow-checkbox>
+                            <prism-table responsive condensed hover striped>
+                                <prism-thead>
+                                    <prism-tr>
+                                        <prism-th>OrderDate</prism-th>
+                                        <prism-th>Item</prism-th>
+                                        <prism-th>Units</prism-th>
+                                        <prism-th>UnitCost</prism-th>
+                                        <prism-th>Total</prism-th>
+                                    </prism-tr>
+                                </prism-thead>
+                                <prism-tbody>
+                                    <prism-tr key="1">
+                                        <prism-td title="OrderDate">1/6/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">95</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">189.05</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="2">
+                                        <prism-td title="OrderDate">1/23/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">50</prism-td>
+                                        <prism-td title="UnitCost">19.99</prism-td>
+                                        <prism-td title="Total">999.50</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="3">
+                                        <prism-td title="OrderDate">2/9/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">36</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">179.64</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="4">
+                                        <prism-td title="OrderDate">2/26/2016</prism-td>
+                                        <prism-td title="Item">Pen</prism-td>
+                                        <prism-td title="Units">27</prism-td>
+                                        <prism-td title="UnitCost">19.99</prism-td>
+                                        <prism-td title="Total">539.73</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="5">
+                                        <prism-td title="OrderDate">3/15/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">56</prism-td>
+                                        <prism-td title="UnitCost">2.99</prism-td>
+                                        <prism-td title="Total">167.44</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="6">
+                                        <prism-td title="OrderDate">4/1/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">60</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">299.40</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="7">
+                                        <prism-td title="OrderDate">4/18/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">75</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">149.25</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="8">
+                                        <prism-td title="OrderDate">5/5/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">90</prism-td>
+                                        <prism-td title="UnitCost">4.99</prism-td>
+                                        <prism-td title="Total">449.10</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="9">
+                                        <prism-td title="OrderDate">5/22/2016</prism-td>
+                                        <prism-td title="Item">Pencil</prism-td>
+                                        <prism-td title="Units">32</prism-td>
+                                        <prism-td title="UnitCost">1.99</prism-td>
+                                        <prism-td title="Total">63.68</prism-td>
+                                    </prism-tr>
+                                    <prism-tr key="10">
+                                        <prism-td title="OrderDate">6/8/2016</prism-td>
+                                        <prism-td title="Item">Binder</prism-td>
+                                        <prism-td title="Units">60</prism-td>
+                                        <prism-td title="UnitCost">8.99</prism-td>
+                                        <prism-td title="Total">539.40</prism-td>
+                                    </prism-tr>
+                                </prism-tbody>
+                            </prism-table>
+                        </prism-table-selector>
+
+                    </template>
+                </dom-bind>
+                <script>
+                    binder = document.querySelector('dom-bind#multi-checkbox');
+                    binder.changeSelection = function () {
+                        let values = (this.selection || '').split(',')
+                            .map((item) => item.trim())
+                            .filter((item) => item !== '');
+
+                        this.$.selector.changeSelected(values, true);
+                    };
+                </script>
+            </template>
+        </demo-snippet>
+    </div>
+</body>
+
+</html>

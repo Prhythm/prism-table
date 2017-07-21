@@ -1,0 +1,68 @@
+<script>
+    'use strict';
+    
+    /**
+     * Shared properties for `<prism-table>` elements
+     *
+     * @param superClass 要繼承的類別，通常為 Polymer.Element。
+     * @returns {{properties}}
+     * @constructor
+     */
+    function PrismTableSelectorBehavior(superClass) {
+        return class extends superClass {
+            static get properties() {
+                return {
+                    /**
+                     * Allow multiple selection
+                     */
+                    multiple: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Allow use checkbox element
+                     */
+                    allowCheckbox: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * Position of selection value
+                     */
+                    columnIndexForSelected: {
+                        type: Number,
+                        value: -1
+                    },
+
+                    /**
+                     * Attribute name of selection value
+                     */
+                    attributeForSelected: {
+                        type: String,
+                        value: 'key'
+                    },
+
+                    /**
+                     * First value of selected
+                     */
+                    selected: {
+                        type: Object,
+                        notify: true
+                    },
+
+                    /**
+                     * Selected values
+                     */
+                    selectedItems: {
+                        type: Array,
+                        notify: true,
+                        value: []
+                    }
+                }
+            }
+        }
+    }
+
+</script>

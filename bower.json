@@ -1,0 +1,31 @@
+{
+  "name": "prism-table",
+  "version": "2.0.0",
+  "authors": [
+    "Bruce Tsai"
+  ],
+  "description": "Web component based on Polymer 2, provide material design.",
+  "main": [
+    "prism-data-table",
+    "prism-table-selector",
+    "prism-table.html",
+    "prism-thead.html",
+    "prism-tbody.html",
+    "prism-tfoot.html",
+    "prism-tr.html",
+    "prism-th.html",
+    "prism-td.html"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^2.0.2"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0"
+  }
+}

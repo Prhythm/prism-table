@@ -1,0 +1,45 @@
+<link rel="import" href="../polymer/polymer.html" />
+
+<dom-module id="prism-thead">
+    <template>
+        <style>
+             :host {
+                display: table-header-group;
+
+                --prism-table-cell-border-bottom: var(--prism-table-header-cell-border-bottom);
+            }
+
+             ::slotted(:not(prism-tr)) {
+                display: none;
+            }
+
+            @media screen and (max-width: 768px) {
+                 :host {
+                    display: var(--prism-table-header-row-display);
+                }
+            }
+        </style>
+        <slot></slot>
+    </template>
+    <script>
+        'use strict';
+
+        /**
+         * Table header of `<prism-table>`
+         *
+         * @memberof Prhythm
+         * @element prism-thead
+         * @customElement
+         * @polymer
+         */
+        class PrismTableHead extends Polymer.Element {
+
+            static get is() {
+                return 'prism-thead'
+            }
+
+        }
+
+        customElements.define(PrismTableHead.is, PrismTableHead);
+    </script>
+</dom-module>
