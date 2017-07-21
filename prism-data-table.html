@@ -136,7 +136,7 @@
                      *    "allowHtml": true,  // Allow html content, optional
                      *    "render": "template",  // Render type, optional, available values are: template/map/transform/state
                      *    "maxLength": 100, // Max text length cell renders, optional
-                     *    "template": `<a href="/path/${param}">${text}</a>`,  // Works when `render` is set as `tempate`, optional
+                     *    "template": `<a href="/path/#{param}">#{text}</a>`,  // Works when `render` is set as `tempate`, optional
                      *                                                         // tempate allow use variable inside
                      *    "map": {}, // Works when `render` is set as `map`, optional
                      *               // this will map value from row data or column inforamtion
