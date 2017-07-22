@@ -52,7 +52,7 @@
                 width: 100%;
                 max-width: 100%;
                 margin-bottom: 2rem;
-                background-color: var(--var-prism-table-backgrounc-color, transparent);
+                background-color: var(--var-prism-table-background-color, transparent);
 
                 -webkit-box-shadow: var(--prism-table-shadow);
                 -moz-box-shadow: var(--prism-table-shadow);
@@ -159,7 +159,7 @@
          * ----------------|-------------|----------
          * `--var-prism-table-font-size` | Font size | `inherit`
          * `--var-prism-table-font-weight` | Font weight | `inherit`
-         * `--var-prism-table-backgrounc-color` | Table background | `transparent`
+         * `--var-prism-table-background-color` | Table background | `transparent`
          * `--var-prism-table-cell-condense` | Cell padding | `0.8em`
          * `--var-prism-table-row-hover-background-color` | Hovered row background color | `#c5c5c5`
          * `--var-prism-table-row-hover-color` | Hovered row text color | `inherit`
@@ -196,7 +196,7 @@
                 if (depth < 0) return rows;
                 for (let i = 0; i < element.children.length; i++) {
                     let child = element.children[i];
-                    // Only <prism-tr> is need
+                    // Only <prism-tr> is needed
                     if (child.tagName === 'PRISM-TR') rows.push(child);
                     // Recursively step into
                     rows = rows.concat(this.rows(child, (depth || 0) - 1));

@@ -48,7 +48,7 @@ Custom property | Description | Default
 ----------------|-------------|----------
 `--var-prism-table-font-size` | Font size | `inherit`
 `--var-prism-table-font-weight` | Font weight | `inherit`
-`--var-prism-table-backgrounc-color` | Table background | `transparent`
+`--var-prism-table-background-color` | Table background | `transparent`
 `--var-prism-table-cell-condense` | Cell padding | `0.8em`
 `--var-prism-table-row-hover-background-color` | Hovered row background color | `#c5c5c5`
 `--var-prism-table-row-hover-color` | Hovered row text color | `inherit`
