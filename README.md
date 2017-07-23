@@ -1,5 +1,7 @@
 # \<prism-table\>
 
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/owner/my-element)
+
 `<prism-table>` is a [Polymer 2](http://polymer-project.org/) element provides table structure in material design and responsive.
 
 # Usage
