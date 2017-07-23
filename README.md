@@ -6,8 +6,18 @@
 
 # Usage
 
+<!--
+```
+<custom-element-demo>
+  <template>
+    <link rel="import" href="prism-table-import.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
-<prism-table>
+<prism-table responsive>
     <prism-thead>
         <prism-tr>
             <prism-th>OrderDate</prism-th>
