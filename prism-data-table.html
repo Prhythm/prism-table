@@ -132,7 +132,7 @@
                      * ```javascript
                      * {
                      *    "name": "id",  // Column identity, works as variable name for template content
-                     *    "label": "代號", // Column header label, this value display on table header
+                     *    "label": "Account", // Column header label, this value display on table header
                      *    "allowHtml": true,  // Allow html content, optional
                      *    "render": "template",  // Render type, optional, available values are: template/map/transform/state
                      *    "maxLength": 100, // Max text length cell renders, optional
@@ -140,8 +140,10 @@
                      *                                                         // tempate allow use variable inside
                      *    "map": {}, // Works when `render` is set as `map`, optional
                      *               // this will map value from row data or column inforamtion
-                     *    "trueText": "真", // Works when `render` is set as `state`, optional
-                     *    "falseText": "敆" // trueText map when value is true, otherwise falseText
+                     *    "transform": "formatDate", // Works when `render` is set as `transform`,
+                     *                               // provide transform value from dom host method
+                     *    "trueText": "Enabled", // Works when `render` is set as `state`, optional
+                     *    "falseText": "Disabled" // trueText map when value is true, otherwise falseText
                      * }
                      * ```
                      */
