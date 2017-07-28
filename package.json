@@ -1,0 +1,26 @@
+{
+  "name": "prism-table",
+  "version": "2.0.0",
+  "description": "Web component based on Polymer 2, provide material design.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prhythm/prism-table.git"
+  },
+  "author": "Bruce Tsai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Prhythm/prism-table/issues"
+  },
+  "homepage": "https://github.com/Prhythm/prism-table#readme",
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "polymer-cli": "^1.3.1"
+  }
+}
