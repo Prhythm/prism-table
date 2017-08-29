@@ -455,7 +455,7 @@
 
                 // Fire sort event
                 this.dispatchEvent(new CustomEvent('sort', {
-                    bubble: true,
+                    bubbles: true,
                     composed: true,
                     detail: Object.assign({ direction: this.get('sortDirection') }, column)
                 }));
